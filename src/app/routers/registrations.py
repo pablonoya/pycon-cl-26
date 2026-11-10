@@ -1,7 +1,7 @@
 import time
 from uuid import uuid4
 
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks
 from pydantic import BaseModel, EmailStr, Field
 
 from app.database import execute
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/registrations", tags=["Registrations"])
 
 
 @router.post("", status_code=201)
-def create_registration(data: Registration):
+def create_registration(data: Registration, background_tasks: BackgroundTasks):
     registration_id = str(uuid4())
 
     execute(
