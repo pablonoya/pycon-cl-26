@@ -1,11 +1,11 @@
 import time
 from uuid import uuid4
 
-from fastapi import APIRouter, BackgroundTasks
+from fastapi import APIRouter
 from pydantic import BaseModel, EmailStr, Field
 
 from app.database import execute
-from app.mailer import send_confirmation
+from app.task_queue import enqueue_confirmation
 
 
 class Registration(BaseModel):
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/registrations", tags=["Registrations"])
 
 
 @router.post("", status_code=201)
-def create_registration(data: Registration, background_tasks: BackgroundTasks):
+def create_registration(data: Registration):
     registration_id = str(uuid4())
 
     execute(
@@ -26,7 +26,7 @@ def create_registration(data: Registration, background_tasks: BackgroundTasks):
     )
 
     start = time.perf_counter()
-    send_confirmation(data.name, data.email)
+    enqueue_confirmation(data.name, data.email)
     print(f"Email tardó {time.perf_counter() - start:.2f}s")
 
     return {"id": registration_id, **data.model_dump()}
