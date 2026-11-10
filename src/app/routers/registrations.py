@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel, EmailStr, Field
 
 from app.database import execute
+from app.mailer import send_confirmation
 
 
 class Registration(BaseModel):
@@ -22,5 +23,6 @@ def create_registration(data: Registration):
         "INSERT INTO registrations (id, name, email) VALUES (?, ?, ?)",
         (registration_id, data.name, data.email),
     )
-
+    send_confirmation(data.name, data.email)
+    
     return {"id": registration_id, **data.model_dump()}
