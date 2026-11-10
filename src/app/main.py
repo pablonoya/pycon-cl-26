@@ -1,8 +1,15 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.database import create_db
 
 
-@app.get("/hello")
-def hello(name: str | None = None):
-    return {"message": f"Hello {name or 'World'}!"}
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db()
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
