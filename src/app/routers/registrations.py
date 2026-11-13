@@ -30,6 +30,6 @@ def create_registration(data: Registration):
     event = RegistrationEvent(registration_id, data.name, data.email)
     publish(EVENT_REGISTRATION_CREATED, event)
 
-    print(f"Email tardó {time.perf_counter() - start:.2f}s")
+    print(f"Publicación tardó {time.perf_counter() - start:.2f}s")
 
     return {"id": registration_id, **data.model_dump()}
