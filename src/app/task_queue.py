@@ -14,10 +14,12 @@ def process_jobs():
             send_confirmation(name, email)
         except Exception as error:
             print(f"Failed to send email: {error}")
+        finally:
+            jobs.task_done()
 
-
-def start_worker():
-    Thread(target=process_jobs, daemon=True).start()
+def start_workers(num: int = 1):
+    for _ in range(num):
+        Thread(target=process_jobs, daemon=True).start()
 
 
 def enqueue_confirmation(name: str, email: str):
