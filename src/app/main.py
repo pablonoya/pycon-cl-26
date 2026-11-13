@@ -3,9 +3,10 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from app.consumers import send_confirmation_email
 from app.database import create_db
+from app.event_bus import EVENT_REGISTRATION_CREATED, subscribe
 from app.routers import registrations
-from app.task_queue import start_workers
 
 load_dotenv()
 
@@ -13,7 +14,8 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_db()
-    start_workers(3)
+
+    subscribe(EVENT_REGISTRATION_CREATED, send_confirmation_email)
 
     yield
 
