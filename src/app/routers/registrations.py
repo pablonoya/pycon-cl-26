@@ -1,14 +1,14 @@
 from uuid import uuid4
 
 from fastapi import APIRouter
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 from app.database import execute
 
 
 class Registration(BaseModel):
-    name: str
-    email: str
+    name: str = Field(min_length=2, max_length=50)
+    email: EmailStr
 
 
 router = APIRouter(prefix="/registrations", tags=["Registrations"])
