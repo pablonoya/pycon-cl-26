@@ -1,0 +1,28 @@
+---
+title: ¿Qué tanto debe hacer mi endpoint?
+description: Taller de FastAPI para PyCon Chile 2026
+template: splash
+hero:
+  tagline: Un endpoint de registros que crece sección a sección, con base de datos, correo y eventos.
+  actions:
+    - text: Instalar el proyecto
+      link: setup/
+      icon: right-arrow
+    - text: Ir a la sección 0
+      link: secciones/00-main/
+      icon: rocket
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="Una rama, una sección" icon="puzzle">
+		Cada rama del repositorio agrega una pieza. Las secciones se siguen en orden.
+	</Card>
+	<Card title="Código resaltado" icon="pencil">
+		Cada sección muestra el código que agrega, con las líneas nuevas y eliminadas resaltadas.
+	</Card>
+	<Card title="Sin dependencias extra" icon="setting">
+		SQLite, `smtplib`, colas e hilos: nada más allá de FastAPI.
+	</Card>
+</CardGrid>
